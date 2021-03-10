@@ -1,20 +1,20 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import Axios from 'axios';
+
+import DispatchContext from "../DispatchContext";
 
 function HeaderLoggedOut (props) {
 
     const[username, setUsername] = useState()
     const[password, setPassword] = useState()
+    const appDispatch = useContext(DispatchContext)
 
     async function handleSubmit(e) {
         e.preventDefault()
         try {
-            const response = await Axios.post('http://localhost:8080/login', {username, password})
-            if(response.data) {
-                localStorage.setItem("socialAppToken", response.data.token)
-                localStorage.setItem("socialAppUsername", response.data.username)
-                localStorage.setItem("socialAppAvatar", response.data.avatar)
-                props.setLoggedIn(true)
+            const response = await Axios.post('/login', {username, password})
+            if(response.data) {              
+                appDispatch({type: "loggedIn", data: response.data})
             } else {
                 console.log("Incorrect usernamr / password.")
             }

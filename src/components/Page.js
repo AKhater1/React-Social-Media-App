@@ -9,7 +9,7 @@ function Page(props) {
             document.title = `${props.title} | ComplexApp`,
             window.scrollTo(0, 0)
         )
-    }, [])
+    }, props.title)
 
     return (
         <Container title={props.title} wide={props.wide}>
